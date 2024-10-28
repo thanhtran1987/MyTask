@@ -10,6 +10,8 @@ export async function getData(session: string) {
     },
   });
   console.log(113);
+  console.log(114, res);
+  console.log(115, res.json);
   return res.json();
 }
 export async function getConfig() {
