@@ -1,5 +1,7 @@
 export async function getData(session: string) {
-  let url = `${process.env.API_URL}/api/task`;
+  console.log(111, process.env.DOMAIN);
+  let url = `${process.env.DOMAIN}/api/task`;
+  console.log(112, url);
   const res = await fetch(url, {
     headers: {
       Cookie: `session=${session}`,

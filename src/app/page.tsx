@@ -3,9 +3,6 @@ import { redirect } from "next/navigation";
 import View from "./view";
 import type { ResponseData } from "@/pages/api/task";
 import { getData } from "@/helper/data";
-import { decrypt } from "@/app/lib/session";
-
-import { IUser } from "@/models/User";
 
 export default async function Page() {
   // server logic and magic goes here
