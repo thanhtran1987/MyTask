@@ -1,6 +1,6 @@
 export async function getData(session: string) {
   console.log(111, process.env.VERCEL_URL);
-  let url = `${process.env.VERCEL_URL}/api/task`;
+  let url = `http://${process.env.VERCEL_URL}/api/task`;
   console.log(112, url);
   const res = await fetch(url, {
     method: "GET",
@@ -14,7 +14,7 @@ export async function getData(session: string) {
 }
 export async function getConfig() {
   console.log(114);
-  let url = `${process.env.VERCEL_URL}/config.json`;
+  let url = `http://${process.env.VERCEL_URL}/config.json`;
   console.log(112, url);
   const res = await fetch(url);
   return res.json();
