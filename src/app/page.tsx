@@ -1,8 +1,10 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import View from "./view";
-import type { ResponseData } from "@/pages/api/task";
-import { getData } from "@/helper/data";
+import { getData } from "@/pages/api/task";
+import { decrypt } from "@/app/lib/session";
+import { IUser } from "@/models/User";
+import { JWTPayload } from "jose";
 
 export default async function Page() {
   // server logic and magic goes here
@@ -11,6 +13,9 @@ export default async function Page() {
   if (!session) {
     redirect("/login");
   }
-  let res: ResponseData = await getData(session.value);
-  return <View taskList={res.data} />;
+
+  const auth: JWTPayload = (await decrypt(session.value)) || {};
+  const id: String = auth.id?.toString() || "";
+  let res = await getData(id);
+  return <View taskList={res} />;
 }

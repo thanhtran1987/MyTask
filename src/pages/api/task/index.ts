@@ -9,18 +9,31 @@ export interface ResponseData {
   count: number;
 }
 
+export async function getData(id: String) {
+  // defaults to get methods
+  await connectDB();
+
+  let data: ITask[] = [];
+
+  const res = await Tasks.find({
+    ownerID: id,
+  });
+  return res;
+}
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseData>
 ) {
   const auth = (await decrypt(req.cookies.session)) || {};
 
-  console.log(221, req.cookies.session);
-  console.log(222, auth);
   // enforce auth
   if (!auth.id) {
     return res.status(401).json({ data: [], count: 0 });
   }
+
+  const userID = auth.id.toString();
+
   await connectDB();
   // handles save/post
   if (req.method === APIMethod.POST) {
@@ -28,7 +41,7 @@ export default async function handler(
     const data: ITask = {
       name: name,
       description: description,
-      ownerID: auth.id.toString(),
+      ownerID: userID,
       status: TaskStatus.STATUS_PENDING,
     };
     const newTask = new Tasks(data);
@@ -64,18 +77,7 @@ export default async function handler(
 
     return res.status(200).json({ data: [], count: 1 });
   } else {
-    // defaults to get methods
-
-    let data: ITask[] = [];
-
-    await Tasks.find({
-      ownerID: auth.id.toString(),
-    }).then((docs: any) => {
-      const result = docs.map((item: ITask) => {
-        item.id = item._id;
-        return item;
-      });
-      return res.status(200).json({ data: result, count: data.length });
-    });
+    const result = await getData(userID);
+    return res.status(200).json({ data: [], count: 1 });
   }
 }
