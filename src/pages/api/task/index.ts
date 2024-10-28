@@ -14,6 +14,9 @@ export default async function handler(
   res: NextApiResponse<ResponseData>
 ) {
   const auth = (await decrypt(req.cookies.session)) || {};
+
+  console.log(221, req.cookies.session);
+  console.log(222, auth);
   // enforce auth
   if (!auth.id) {
     return res.status(401).json({ data: [], count: 0 });
