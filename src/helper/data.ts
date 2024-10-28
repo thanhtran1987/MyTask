@@ -1,6 +1,6 @@
 export async function getData(session: string) {
-  console.log(111, process.env.DOMAIN);
-  let url = `${process.env.DOMAIN}/api/task`;
+  console.log(111, process.env.VERCEL_URL);
+  let url = `https://${process.env.VERCEL_URL}/api/task`;
   console.log(112, url);
   const res = await fetch(url, {
     headers: {
@@ -10,7 +10,7 @@ export async function getData(session: string) {
   return res.json();
 }
 export async function getConfig() {
-  let url = `${process.env.API_URL}/config.json`;
+  let url = `https://${process.env.VERCEL_URL}/config.json`;
   const res = await fetch(url);
   return res.json();
 }
