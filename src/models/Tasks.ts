@@ -10,6 +10,14 @@ export interface ITask {
   _id?: String;
   id?: String;
   ownerID?: String;
+  name: String;
+  description: String;
+  status?: TaskStatus;
+}
+
+export interface ITaskPut {
+  id?: String;
+  ownerID?: String;
   name?: String;
   description?: String;
   status?: TaskStatus;

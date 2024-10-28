@@ -20,4 +20,8 @@ export const pageNavigation: INavigation[] = [
     label: "Setting",
     value: "/setting",
   },
+  {
+    label: "Team Tasks",
+    value: "/team",
+  },
 ];

@@ -1,7 +1,7 @@
 import React from "react";
 import Button from "@mui/material/Button";
 
-import { ITask, TaskStatus } from "@/models/Tasks";
+import { ITask, ITaskPut, TaskStatus } from "@/models/Tasks";
 import { APIMethod } from "@/helper/data";
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
@@ -214,7 +214,7 @@ export default class ListItem extends React.PureComponent<
   }
   handleDelete = async () => {
     const itemID = this.props.id!;
-    const payLoad: ITask = {
+    const payLoad: { id: String } = {
       id: itemID,
     };
 
@@ -233,7 +233,7 @@ export default class ListItem extends React.PureComponent<
     }
   };
   updateDB = async (data: TaskStatus) => {
-    const payLoad: ITask = {
+    const payLoad: ITaskPut = {
       id: this.props.id,
       status: data,
     };

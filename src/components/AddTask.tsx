@@ -2,6 +2,7 @@
 
 import React from "react";
 import { connect } from "react-redux";
+import { useRouter } from "next/navigation";
 
 import styles from "./Form.module.scss";
 import { RootState } from "@/store";
@@ -13,17 +14,26 @@ import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
 const Item = styled(Paper)(({ theme }) => ({
   textAlign: "center",
 }));
 
-interface MyComponentProps {
+interface Props {
   pageLayOut: string;
 }
+interface PropsWithRouter extends Props {
+  router: AppRouterInstance;
+}
 
-class AddTask extends React.Component<MyComponentProps, ITask> {
-  constructor(props: MyComponentProps) {
+const AddTaskWithRouter = (props: any, state: any) => {
+  const router = useRouter();
+  return <AddTask router={router} pageLayOut={props.pageLayOut} />;
+};
+
+class AddTask extends React.Component<PropsWithRouter, ITask> {
+  constructor(props: PropsWithRouter) {
     super(props);
     this.state = {
       name: "",
@@ -40,7 +50,9 @@ class AddTask extends React.Component<MyComponentProps, ITask> {
           "content-type": "application/json",
         },
       });
-      return res.json();
+
+      this.props.router.push("/");
+      this.props.router.refresh();
     } catch (error) {
       console.error(error);
     }
@@ -76,6 +88,8 @@ class AddTask extends React.Component<MyComponentProps, ITask> {
                   onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                     this.setName(event.target.value);
                   }}
+                  error={this.state.name?.length > 50}
+                  helperText="Less then 50 characters"
                 />
               </Item>
             </Grid>
@@ -90,6 +104,8 @@ class AddTask extends React.Component<MyComponentProps, ITask> {
                   onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                     this.setDescription(event.target.value);
                   }}
+                  error={this.state.description?.length > 200}
+                  helperText="Less then 200 characters"
                 />
               </Item>
             </Grid>
@@ -122,4 +138,4 @@ const mapStateToProps = (state: RootState) => {
   };
 };
 
-export default connect(mapStateToProps, {})(AddTask);
+export default connect(mapStateToProps, {})(AddTaskWithRouter);

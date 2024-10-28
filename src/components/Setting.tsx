@@ -32,6 +32,7 @@ class Setting extends React.PureComponent<MyComponentProps> {
   render() {
     return (
       <main className="flex min-h-screen flex-col items-center justify-between p-24">
+        <h1>(WIP) Demo of server side rendering</h1>
         <div className={styles.settingOptions}>
           <FormControl>
             <FormLabel>Page Theme:</FormLabel>

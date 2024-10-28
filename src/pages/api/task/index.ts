@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
-import Tasks, { ITask, TaskStatus } from "@/models/Tasks";
+import Tasks, { ITask, ITaskPut, TaskStatus } from "@/models/Tasks";
 import connectDB from "@/app/lib/mongodb";
 import { APIMethod } from "@/helper/data";
 import { decrypt } from "@/app/lib/session";
@@ -62,7 +62,7 @@ export default async function handler(
     const { id, status, description, name } = req.body;
 
     const filter = { _id: id };
-    const update: ITask = {};
+    const update: ITaskPut = {};
     if (status) {
       update.status = status;
     }
